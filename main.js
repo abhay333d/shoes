@@ -4,7 +4,7 @@ const _settings = {
 
   // CONVERSES SHOES:
   // 3D models:
-  shoeRightPath: "./assets/shoes.glb",
+  shoeRightPath: "./assets/Shoe.glb",
   isModelLightMapped: true,
   occluderPath: "./assets/occluder.glb",
 
@@ -94,7 +94,7 @@ function main() {
     ],
     maxHandsDetected: 2,
     stabilizationSettings: {
-      //qualityFactorRange: [0.4, 0.7],
+      qualityFactorRange: [0.4, 0.7],
       NNSwitchMask: {
         isRightHand: false,
         isFlipped: false,
@@ -140,16 +140,18 @@ function start(three) {
   }
 
   function transform(threeObject) {
-    threeObject.scale.multiplyScalar(_settings.scale);
+    threeObject.scale.multiplyScalar(_settings.scale / 1000);
     threeObject.position.add(
       new THREE.Vector3().fromArray(_settings.translation)
     );
+    // threeObject.position.y -= 10;
   }
 
   // load the shoes 3D model:
   new THREE.GLTFLoader().load(_settings.shoeRightPath, function (gltf) {
     const shoe = gltf.scene;
     transform(shoe);
+    // shoe.position.y -= 10;
     HandTrackerThreeHelper.add_threeObject(shoe);
   });
 
