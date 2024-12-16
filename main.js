@@ -128,7 +128,9 @@ function start(three) {
   if (!_settings.isModelLightMapped) {
     const pointLight = new THREE.PointLight(0xffffff, 2);
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    three.scene.add(pointLight, ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 7);
+    const lightHelper = new THREE.PointLightHelper(pointLight, 0.1);
+    three.scene.add(ambientLight, directionalLight, pointLight, lightHelper);
   }
 
   // add a debug cube:
@@ -144,14 +146,12 @@ function start(three) {
     threeObject.position.add(
       new THREE.Vector3().fromArray(_settings.translation)
     );
-    // threeObject.position.y -= 10;
   }
 
   // load the shoes 3D model:
   new THREE.GLTFLoader().load(_settings.shoeRightPath, function (gltf) {
     const shoe = gltf.scene;
     transform(shoe);
-    // shoe.position.y -= 10;
     HandTrackerThreeHelper.add_threeObject(shoe);
   });
 
