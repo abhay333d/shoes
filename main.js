@@ -25,7 +25,7 @@ const _settings = {
   //*/
 
   // debug flags:
-  debugCube: true, // Add a cube
+  debugCube: false, // Add a cube
   debugDisplayLandmarks: true,
 };
 
@@ -40,7 +40,7 @@ const _states = {
   busy: 2,
 };
 let _state = _states.notLoaded;
-let _isSelfieCam = false;
+let _isSelfieCam = true;
 
 function setFullScreen(cv) {
   cv.width = window.innerWidth;
@@ -96,7 +96,7 @@ function main() {
     stabilizationSettings: {
       qualityFactorRange: [0.4, 0.7],
       NNSwitchMask: {
-        isRightHand: false,
+        isRightHand: true,
         isFlipped: false,
       },
     },
@@ -126,11 +126,14 @@ function start(three) {
 
   // set lighting:
   if (!_settings.isModelLightMapped) {
-    const pointLight = new THREE.PointLight(0xffffff, 2);
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 7);
-    const lightHelper = new THREE.PointLightHelper(pointLight, 0.1);
-    three.scene.add(ambientLight, directionalLight, pointLight, lightHelper);
+    const pointLight = new THREE.PointLight(0xffffff, 5);
+    pointLight.position.set(0, 1, 2);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+    directionalLight.position.set(2, 4, -3);
+
+    three.scene.add(ambientLight, directionalLight, pointLight);
   }
 
   // add a debug cube:
